@@ -1,0 +1,256 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 03, 2025 at 06:06 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.0.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `db_pukesmas`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kelurahan`
+--
+
+CREATE TABLE `kelurahan` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(45) NOT NULL,
+  `kec_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `kelurahan`
+--
+
+INSERT INTO `kelurahan` (`id`, `nama`, `kec_id`) VALUES
+(1, 'Nanggung', 1),
+(2, 'Sukakamu', 2),
+(3, 'Sukajaya', 3),
+(4, 'Jatimulya', 4),
+(5, 'Sukamaju', 5),
+(6, 'Leweliang', 6),
+(7, 'Cipanas', 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paramedik`
+--
+
+CREATE TABLE `paramedik` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(45) NOT NULL,
+  `gender` char(1) DEFAULT NULL,
+  `tmp_lahir` varchar(30) DEFAULT NULL,
+  `tgl_lahir` date DEFAULT NULL,
+  `kategori` enum('dokter','perawat','bidan') NOT NULL,
+  `telpon` varchar(20) DEFAULT NULL,
+  `alamat` varchar(100) DEFAULT NULL,
+  `unit_kerja_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `paramedik`
+--
+
+INSERT INTO `paramedik` (`id`, `nama`, `gender`, `tmp_lahir`, `tgl_lahir`, `kategori`, `telpon`, `alamat`, `unit_kerja_id`) VALUES
+(1, 'Dr Ramaaditia', 'L', 'Depok', '0006-05-04', 'dokter', '08123456789', 'JL. leweliang', 1),
+(2, 'Dr. Aura Lovely', 'P', 'Jakarta', '2004-02-21', 'dokter', '0897467373', 'jl.mawar', 2),
+(3, 'dfj', 'L', 'Bedahan', '2000-04-23', 'dokter', '09839283', 'jl.bedahan2', 3),
+(5, 'Sistem Informasi', 'L', 'bogor', '0003-03-11', 'bidan', '1122', 'ewr', 3),
+(12, 'Busil', 'P', 'bogor', '2875-02-11', 'dokter', '09839283', 'sdfgh', 3),
+(13, '\\', 'L', 'Depok', '0046-03-12', 'dokter', '08123456789', 'et', 2),
+(17, 'boni', 'L', 'jakarta', '2435-12-12', 'perawat', '08123456789', 'Jakarta Kota', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pasien`
+--
+
+CREATE TABLE `pasien` (
+  `id` int(11) NOT NULL,
+  `kode` varchar(10) NOT NULL,
+  `nama` varchar(45) NOT NULL,
+  `tmp_lahir` varchar(30) DEFAULT NULL,
+  `tgl_lahir` date DEFAULT NULL,
+  `gender` char(1) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `alamat` varchar(100) DEFAULT NULL,
+  `kelurahan_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pasien`
+--
+
+INSERT INTO `pasien` (`id`, `kode`, `nama`, `tmp_lahir`, `tgl_lahir`, `gender`, `email`, `alamat`, `kelurahan_id`) VALUES
+(1, 'P002', 'Adit', 'Depok', '2203-02-01', 'L', 'dfghj@gmail.com', 'oijhgfc', 1),
+(2, 'P002', 'dsasds', 'depok 2', '0022-02-12', 'L', 'doetrni1234@gmail.com', 'sjdsj', 4),
+(5, '01', 'ramaa', 'bogor', '0022-02-12', 'L', 'adag06@gmail.com', 'Bogor', 4),
+(6, 'P002', 'ram', 'bogor', '0024-02-23', 'P', 'mfmfm21@gmail.com', 'JL.KESADARAN', 4),
+(7, 'hygy', 'dddddd', 'bogor', '4222-12-12', 'L', 'adag06@gmail.com', 'jl.amanah', 5),
+(8, 'gg', 'BABA', 'depok 2', '1333-02-12', 'P', '0110224160@student.nurulfikri.ac.id', 'Bogor', 5),
+(9, '02', 'Nona', 'Cius', '1998-12-12', 'P', 'adhytia@gmail.com', 'bool', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `periksa`
+--
+
+CREATE TABLE `periksa` (
+  `id` int(11) NOT NULL,
+  `tanggal` date NOT NULL,
+  `berat` double DEFAULT NULL,
+  `tinggi` double DEFAULT NULL,
+  `tensi` varchar(20) DEFAULT NULL,
+  `keterangan` varchar(100) DEFAULT NULL,
+  `pasien_id` int(11) DEFAULT NULL,
+  `dokter_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `periksa`
+--
+
+INSERT INTO `periksa` (`id`, `tanggal`, `berat`, `tinggi`, `tensi`, `keterangan`, `pasien_id`, `dokter_id`) VALUES
+(1, '2222-02-21', 80.3, 170.4, '32', 'Sakit', 8, 1),
+(5, '2005-04-12', 80.3, 167, '3', 'sakit', 6, 1),
+(6, '1999-12-12', 100, 155, '61', 'Sehat', 7, 12),
+(7, '7899-06-05', 66, 456, '65', 'Koma', 9, 17);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `unit_kerja`
+--
+
+CREATE TABLE `unit_kerja` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `unit_kerja`
+--
+
+INSERT INTO `unit_kerja` (`id`, `nama`) VALUES
+(1, 'Unit Gawat Darurat'),
+(2, 'Unit Poli Umum'),
+(3, 'Unit Laboratorium');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `kelurahan`
+--
+ALTER TABLE `kelurahan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `paramedik`
+--
+ALTER TABLE `paramedik`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `unit_kerja_id` (`unit_kerja_id`);
+
+--
+-- Indexes for table `pasien`
+--
+ALTER TABLE `pasien`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelurahan_id` (`kelurahan_id`);
+
+--
+-- Indexes for table `periksa`
+--
+ALTER TABLE `periksa`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pasien_id` (`pasien_id`),
+  ADD KEY `dokter_id` (`dokter_id`);
+
+--
+-- Indexes for table `unit_kerja`
+--
+ALTER TABLE `unit_kerja`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `kelurahan`
+--
+ALTER TABLE `kelurahan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `paramedik`
+--
+ALTER TABLE `paramedik`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `pasien`
+--
+ALTER TABLE `pasien`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `periksa`
+--
+ALTER TABLE `periksa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `unit_kerja`
+--
+ALTER TABLE `unit_kerja`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `paramedik`
+--
+ALTER TABLE `paramedik`
+  ADD CONSTRAINT `paramedik_ibfk_1` FOREIGN KEY (`unit_kerja_id`) REFERENCES `unit_kerja` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `pasien`
+--
+ALTER TABLE `pasien`
+  ADD CONSTRAINT `pasien_ibfk_1` FOREIGN KEY (`kelurahan_id`) REFERENCES `kelurahan` (`id`) ON DELETE SET NULL;
+
+--
+-- Constraints for table `periksa`
+--
+ALTER TABLE `periksa`
+  ADD CONSTRAINT `periksa_ibfk_1` FOREIGN KEY (`pasien_id`) REFERENCES `pasien` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `periksa_ibfk_2` FOREIGN KEY (`dokter_id`) REFERENCES `paramedik` (`id`) ON DELETE SET NULL;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
